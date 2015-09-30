@@ -3,31 +3,28 @@
 namespace CodeProject\Http\Controllers;
 
 
-use CodeProject\Repositories\ClienteRepository;
-use CodeProject\Services\ClienteService;
+use CodeProject\Repositories\ProjectRepository;
+use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 
 
-class ClienteController extends Controller
-{
 
+class ProjectController extends Controller
+{
+    /**
+     * @var ProjectRepository
+     */
     private $repository;
     /**
-     * @var ClienteService
+     * @var ProjectService
      */
     private $service;
 
-    /**
-     * @param ClienteRepository $repository
-     * @param ClienteService $service
-     */
-
-    public function __construct(ClienteRepository $repository, ClienteService $service)
+    public function __construct(ProjectRepository $repository, ProjectService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
     }
-
 
     /**
      * Display a listing of the resource.
@@ -39,8 +36,6 @@ class ClienteController extends Controller
         return $this->repository->all();
     }
 
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -49,7 +44,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->service->create($request->all());
+        return $this->repository->create($request->all());
     }
 
     /**
@@ -63,7 +58,6 @@ class ClienteController extends Controller
         return $this->repository->find($id);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -74,7 +68,6 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     {
         return $this->service->update($request->all(), $id);
-
     }
 
     /**
@@ -85,7 +78,6 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->find($id)->delete();
-        //$this->service->delete($id);
+        return $this->repository->delete($id);
     }
 }
