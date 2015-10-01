@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectsTable extends Migration
+class CreateProjectTables extends Migration
 {
     /**
      * Run the migrations.
@@ -20,13 +20,12 @@ class CreateProjectsTable extends Migration
             $table->foreign('client_id')->references('id')->on('clientes');
             $table->string('name', 120);
             $table->text('description');
-            $table->string('progress', 200);
-            $table->string('status', 2);
+            $table->smallInteger('progress');
+            $table->smallInteger('status');
             $table->date('due_date');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
