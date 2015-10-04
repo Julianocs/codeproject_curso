@@ -20,6 +20,15 @@ class Project extends Model implements Transformable
         'due_date'
     ];
 
+    public function client()
+    {
+        return $this->belongsTo('CodeProject\Entities\Clientes');
+    }
+    public function owner()
+    {
+        return $this->belongsTo('CodeProject\Entities\User');
+    }
+
     public function notes()
     {
         return $this->hasMany(ProjectNote::class);

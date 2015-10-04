@@ -15,5 +15,8 @@ class Clientes extends Model
         'obs'
     ];
 
-
+    public function projects()
+    {
+        return $this->hasMany('CodeProject\Entities\Project');
+    }
 }
