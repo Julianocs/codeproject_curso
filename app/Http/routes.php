@@ -13,11 +13,11 @@
 
 Route::get('/', 'ClienteController@index');
 
-Route::get('cliente', 'ClienteController@index');
-Route::post('cliente', 'ClienteController@store');
-Route::get('cliente/{id}', 'ClienteController@show');
-Route::delete('cliente/{id}', 'ClienteController@destroy');
-Route::put('cliente/{id}', 'ClienteController@update');
+Route::get('client', 'ClienteController@index');
+Route::post('client', 'ClienteController@store');
+Route::get('client/{id}', 'ClienteController@show');
+Route::delete('client/{id}', 'ClienteController@destroy');
+Route::put('client/{id}', 'ClienteController@update');
 
 Route::get('project/{id}/note', 'ProjectNoteController@index');
 Route::post('project/{id}/note', 'ProjectNoteController@store');

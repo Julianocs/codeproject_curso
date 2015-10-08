@@ -11,6 +11,7 @@ namespace CodeProject\Services;
 
 use CodeProject\Repositories\ClienteRepository;
 use CodeProject\Validators\ClienteValidator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 
@@ -68,7 +69,34 @@ class ClienteService
     }
 
 
+    public function show($id){
+        try{
+            return [
+                "success" => $this->repository->find($id)
+            ];
+        } catch(ModelNotFoundException $e) {
+            return [
+                "success" => false,
+                "message" => "Cliente ID: {$id} inexistente!"
+            ];
+        }
+    }
 
-
+    public function destroy($id)
+    {
+        try {
+            if ($this->repository->find($id)->destroy()) {
+                return [
+                    'error'   => false,
+                    'message' => 'Cliente deletado.'
+                ];
+            }
+        } catch (ModelNotFoundException $e) {
+            return [
+                'error'   => true,
+                'message' => 'Cliente não encontrado.'
+            ];
+        }
+    }
 
 }

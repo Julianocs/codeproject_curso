@@ -11,6 +11,7 @@ namespace CodeProject\Services;
 
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectValidator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectService
@@ -47,7 +48,9 @@ class ProjectService
 
     }
 
-    public function update(array $data, $id)
+
+
+   /* public function update(array $data, $id)
     {
         try{
 
@@ -64,13 +67,46 @@ class ProjectService
 
         }
 
+    }
+*/
+    public function update(array $data,$id)
+    {
+        try{
+            $this->validator->with($data)->passesOrFail();
+            return $this->repository->update($data,$id);
 
+
+        }catch (ValidatorException $e){
+            return [
+                'error'=> true,
+                'message' => 'Verifique os dados'
+            ];
+        }catch(ModelNotFoundException $e){
+            return [
+                'error'=> true,
+                'message' => 'Projeto não encontrado'
+            ];
+        }
     }
 
-    public function delete($id)
+
+    public function show($id){
+        try{
+            return [
+                "success" => $this->repository->with(['owner', 'client'])->find($id)
+            ];
+        } catch(ModelNotFoundException $e) {
+            return [
+                "success" => false,
+                "message" => "Projeto ID: {$id} inexistente!"
+            ];
+        }
+    }
+
+    public function destroy($id)
     {
         try {
-            if ($this->repository->find($id)->delete()) {
+            if ($this->repository->find($id)->destroy()) {
                 return [
                     'error'   => false,
                     'message' => 'Projeto deletado.'
@@ -81,7 +117,13 @@ class ProjectService
                 'error'   => true,
                 'message' => 'Projeto não encontrado.'
             ];
+        } catch(\PDOException $e){
+            return [
+                'success' => false,
+                'message' => 'Existem projetos cadastrados a este cliente!',
+            ];
         }
     }
+  
 
 }

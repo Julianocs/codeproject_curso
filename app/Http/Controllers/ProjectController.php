@@ -59,7 +59,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        return $this->repository->with(['owner', 'client'])->find($id);
+        return $this->service->show($id);
         //return $this->repository->find($id);
     }
 
@@ -73,9 +73,14 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //return $this->service->update($request->all(), $id);
         return $this->service->update($request->all(), $id);
+        //return $this->service->find($id)->update($request->all());
 
     }
+
+
+
 
     /**
      * Remove the specified resource from storage.
