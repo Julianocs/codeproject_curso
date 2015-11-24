@@ -51,23 +51,26 @@ class ClienteService
 
     }
 
-    public function update(array $data, $id)
+
+    public function update(array $data,$id)
     {
-        try {
+        try{
             $this->validator->with($data)->passesOrFail();
+            return $this->repository->update($data,$id);
 
-            return $this->repository->update($data, $id);
 
-        } catch(ValidatorException $e) {
+        }catch (ValidatorException $e){
             return [
-                'error' => true,
-                'message' =>$e->getMessageBag()
+                'error'=> true,
+                'message' => $e->getMessageBag()
+            ];
+        }catch(ModelNotFoundException $e){
+            return [
+                'error'=> true,
+                'message' => 'Cliente não encontrado'
             ];
         }
-
-
     }
-
 
     public function show($id){
         try{
@@ -98,5 +101,7 @@ class ClienteService
             ];
         }
     }
+
+
 
 }

@@ -50,25 +50,6 @@ class ProjectService
 
 
 
-   /* public function update(array $data, $id)
-    {
-        try{
-
-            $this->validator->with($data)->passesOrFail();
-
-            return $this->repository->update($data, $id);
-
-        } catch(ValidatorException $e) {
-
-            return[
-                'error'   => true,
-                'message' => $e->getMessageBag()
-            ];
-
-        }
-
-    }
-*/
     public function update(array $data,$id)
     {
         try{
@@ -79,7 +60,7 @@ class ProjectService
         }catch (ValidatorException $e){
             return [
                 'error'=> true,
-                'message' => 'Verifique os dados'
+                'message' => $e->getMessageBag()
             ];
         }catch(ModelNotFoundException $e){
             return [
@@ -124,6 +105,6 @@ class ProjectService
             ];
         }
     }
-  
+
 
 }

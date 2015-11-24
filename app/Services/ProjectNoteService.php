@@ -49,24 +49,25 @@ class ProjectNoteService
 
     }
 
-    public function update(array $data, $id)
+
+    public function update(array $data,$id)
     {
         try{
-
             $this->validator->with($data)->passesOrFail();
+            return $this->repository->update($data,$id);
 
-            return $this->repository->update($data, $id);
 
-        } catch(ValidatorException $e) {
-
-            return[
-                'error'   => true,
+        }catch (ValidatorException $e){
+            return [
+                'error'=> true,
                 'message' => $e->getMessageBag()
             ];
-
+        }catch(ModelNotFoundException $e){
+            return [
+                'error'=> true,
+                'message' => 'Project Note não encontrado'
+            ];
         }
-
-
     }
 
     public function delete($id)
